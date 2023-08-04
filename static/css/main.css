@@ -1,0 +1,9 @@
+function expandGrid(gridId) {
+    $('.row > .col-md-6').hide();
+    $('#' + gridId).parent().addClass('col-md-12').removeClass('col-md-6').show();
+}
+
+function resetGrid(gridId) {
+    $('.row > .col-md-6').show();
+    $('#' + gridId).parent().addClass('col-md-6').removeClass('col-md-12');
+}
