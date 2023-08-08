@@ -3,65 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>Jaltol - Planning</title>
+    <title>3x3 CSS Grid</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="static/css/main.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Irrigation Planning App</a>
-    </nav>
-    <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Toggle Content 1
-            </button>
-            <div class="collapse show" id="collapseOne">
-                <div class="card card-body">
-                    Content 1
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Toggle Content 2
-            </button>
-            <div class="collapse show" id="collapseTwo">
-                <div class="card card-body">
-                    Content 2
-                </div>
-            </div>
-        </div>
+
+<div class="grid-container">
+    <div class="grid-item">1</div>
+    <div class="grid-item"><p>Total Ag Land Area in Village</p></div>
+    <div class="grid-item">3</div>
+    <div class="grid-item">
+        <button class="grid-button" id="btn1">Land</button>
+        <button class="grid-button" id="btn2">Livestock</button>
+        <button class="grid-button" id="btn3">Water</button>
+        <button class="grid-button" id="btn4">Soil</button>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Toggle Content 3
-            </button>
-            <div class="collapse show" id="collapseThree">
-                <div class="card card-body">
-                    Content 3
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                Toggle Content 4
-            </button>
-            <div class="collapse show" id="collapseFour">
-                <div class="card card-body">
-                    Content 4
-                </div>
-            </div>
-        </div>
+    <div class="grid-item">
+        <div id="content-display"></div>
     </div>
+    <div class="grid-item" id="map"></div>
+    <div class="grid-item">
+        <p>Total Income</p>
+        <p>Livestock Income</p>
+        <p>Crop Income</p>
     </div>
-    <button onclick="expandGrid('collapseOne')">Expand</button>
-    <button onclick="resetGrid('collapseOne')">Reset</button>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <div class="grid-item">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+<script src="static/js/main.js"></script>
+
 </body>
 </html>
