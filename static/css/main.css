@@ -13,14 +13,18 @@ html, body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-rows: 0.35fr auto auto; /*repeat(3, 1fr);*/
+    gap: 5px;
     width: 100vw; /* 100% of the viewport width */
     height: 100vh; /* 100% of the viewport height */
 }
 
-.grid-item:nth-child(7) {
-    grid-column: span 2;  /* This will make the item span 2 columns */
+.grid-item:nth-child(1) {
+    grid-column: span 2;
+}
+
+.grid-item:nth-child(5) {
+    grid-row: span 2;
 }
 
 .grid-item {
