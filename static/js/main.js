@@ -1,12 +1,33 @@
 // Wait for the DOM content to be loaded
 document.addEventListener("DOMContentLoaded", function() {
     // Initialize the map
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map').setView([16, 77], 9);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
         maxZoom: 19
     }).addTo(map);
+
+    // Fetch the GeoJSON data from Flask and add it to the map
+    fetch('/fc/')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data).addTo(map);
+        })
+        .catch(error => {
+            console.error("Error fetching GeoJSON:", error);
+        });
+
+    // Fetch the Earth Engine raster URL from Flask and add it to the map
+    fetch('/image/')
+        .then(response => response.json())
+        .then(data => {
+            var eeTileUrl = data.url.replace("{mapid}", data.mapid);
+            L.tileLayer(eeTileUrl + '/{z}/{x}/{y}?token=' + data.token).addTo(map);
+        })
+        .catch(error => {
+            console.error("Error fetching Earth Engine raster URL:", error);
+        });
 
     // Reference to the content <div> element
     var contentDisplay = document.getElementById('content-display');
@@ -78,5 +99,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-
 
