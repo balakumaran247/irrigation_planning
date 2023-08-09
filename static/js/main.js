@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('/image/')
         .then(response => response.json())
         .then(data => {
-            var eeTileUrl = data.url.replace("{mapid}", data.mapid);
-            L.tileLayer(eeTileUrl + '/{z}/{x}/{y}?token=' + data.token).addTo(map);
+            L.tileLayer(data.url).addTo(map)
         })
         .catch(error => {
             console.error("Error fetching Earth Engine raster URL:", error);

@@ -13,7 +13,7 @@ html, body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 0.35fr auto auto; /*repeat(3, 1fr);*/
+    grid-template-rows: 0.35fr auto 0.3fr; /*repeat(3, 1fr);*/
     gap: 5px;
     width: 100vw; /* 100% of the viewport width */
     height: 100vh; /* 100% of the viewport height */
