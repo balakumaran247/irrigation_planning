@@ -1,5 +1,6 @@
 import ee
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
+from src.gee import get_fc, get_ag_area
 
 # ee.Authenticate()
 ee.Initialize()
@@ -12,12 +13,10 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/fc/")
-def fc():
-    raichur = ee.FeatureCollection("users/jaltolwelllabs/FeatureCol/Raichur")
+@app.route("/fc/<name>")
+def fc(name):
     # Convert the feature collection to GeoJSON
-    raichur_geoj = jsonify(raichur.getInfo())
-    return raichur_geoj
+    return jsonify(get_fc(name).getInfo())
 
 
 @app.route("/image/")
@@ -53,6 +52,12 @@ def get_ee_map_url():
 
     return jsonify({"url": map_id["tile_fetcher"].url_format})
 
+@app.route('/area')
+def get_area():
+    name = request.args.get('name', 'raichur')
+    ctype = request.args.get('ctype', 'total')
+    return jsonify({'area': str(round(get_ag_area(ctype, name),2))})
 
 if __name__ == "__main__":
     app.run(debug=True)
+

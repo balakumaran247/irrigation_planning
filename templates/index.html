@@ -12,16 +12,29 @@
 <body>
 
 <div class="grid-container">
-    <div class="grid-item row1">1</div>
-    <div class="grid-item row1"><p>Total Ag Land Area in Village</p></div>
+    <div class="grid-item row1"><h1>Raichur</h1></div>
+    <div class="grid-item row1"><p>Raichur Agriculture Area: <span id="ag_area">Fetching...</span></p></div>
     <div class="grid-item">
-        <button class="grid-button" id="btn1">Land</button>
-        <button class="grid-button" id="btn2">Livestock</button>
-        <button class="grid-button" id="btn3">Water</button>
-        <button class="grid-button" id="btn4">Soil</button>
+        <button class="grid-button" id="land-btn">Land</button>
+        <button class="grid-button" id="livestock-btn">Livestock</button>
+        <button class="grid-button" id="water-btn">Water</button>
+        <button class="grid-button" id="soil-btn">Soil</button>
     </div>
     <div class="grid-item">
-        <div id="content-display"></div>
+        <div id="content-display">
+            <div class="default-hidden" id="land-content">
+                <p>
+                    <h3>ROI</h3>
+                </p>
+                <p>total cropped area: <span id="total">fetching...</span></p>
+                <p>single cropped area: <span id="single">fetching...</span></p>
+                <p>double cropped area: <span id="double">fetching...</span></p>
+                <p>triple cropped area: <span id="triple">fetching...</span></p>
+            </div>
+            <div class="default-hidden" id="livestock-content"><p>livestock</p></div>
+            <div class="default-hidden" id="water-content"><p>water</p></div>
+            <div class="default-hidden" id="soil-content"><p>soil</p></div>
+        </div>
     </div>
     <div class="grid-item" id="map"></div>
     <div class="grid-item">

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }).addTo(map);
 
     // Fetch the GeoJSON data from Flask and add it to the map
-    fetch('/fc/')
+    fetch('/fc/raichur')
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data).addTo(map);
@@ -28,34 +28,79 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Error fetching Earth Engine raster URL:", error);
         });
 
+    fetch(`/area?name=${encodeURIComponent('raichur')}&ctype=${encodeURIComponent('total')}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update the content of the <p> tag with the received data
+            const paragraph = document.getElementById('ag_area');
+            total_ag_area = data.area
+            paragraph.textContent = total_ag_area; // Assuming the backend returns an object with a "message" property
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
     // Reference to the content <div> element
     var contentDisplay = document.getElementById('content-display');
+
+    async function ag_area(name, ctype) {
+        try{
+            let response = await fetch(`/area?name=${encodeURIComponent(name)}&ctype=${encodeURIComponent(ctype)}`);
+            let data = await response.json();
+            let val = data.area;
+            let ele = document.getElementById(ctype)
+            ele.textContent = val
+        } catch(error) {
+                console.error('Error fetching data:', error);
+                let ele = document.getElementById(ctype);
+                ele.textContent = 'Failed'
+        };
+    }
+
+    const reset_content = () => {
+        document.getElementById('land-content').style.display = 'none'
+        document.getElementById('livestock-content').style.display = 'none'
+        document.getElementById('water-content').style.display = 'none'
+        document.getElementById('soil-content').style.display = 'none'
+    };
     
     // Event listener for Button 1
-    document.getElementById('btn1').addEventListener('click', function() {
-        contentDisplay.innerHTML = `
-            <form>
-                <label for="input1-1">Label 1:</label>
-                <input type="text" id="input1-1" name="input1-1">
-                <!-- Add more input fields as needed -->
-                <input type="submit" value="Submit">
-            </form>
-        `;
+    document.getElementById('land-btn').addEventListener('click', function() {
+        const land_ag_content = document.getElementById('land-content')
+        reset_content()
+        if (land_ag_content.style.display === 'none' || land_ag_content.style.display === ''){
+            land_ag_content.style.display = 'block';
+        }
     });
+
+    for (const param of ['single', 'double', 'triple', 'total']) {
+        ag_area('', param)
+    }
 
     // Event listener for Button 2
-    document.getElementById('btn2').addEventListener('click', function() {
-        contentDisplay.innerHTML = `
-            <form>
-                <label for="input2-1">Label A:</label>
-                <input type="text" id="input2-1" name="input2-1">
-                <!-- Add more input fields as needed -->
-                <input type="submit" value="Submit">
-            </form>
-        `;
+    document.getElementById('livestock-btn').addEventListener('click', function() {
+        const land_ag_content = document.getElementById('livestock-content')
+        reset_content()
+        if (land_ag_content.style.display === 'none' || land_ag_content.style.display === ''){
+            land_ag_content.style.display = 'block';
+        }
     });
 
-    // Add similar event listeners for Button 3 and Button 4 with different form structures if needed...
+    document.getElementById('water-btn').addEventListener('click', function() {
+        const land_ag_content = document.getElementById('water-content')
+        reset_content()
+        if (land_ag_content.style.display === 'none' || land_ag_content.style.display === ''){
+            land_ag_content.style.display = 'block';
+        }
+    });
+
+    document.getElementById('soil-btn').addEventListener('click', function() {
+        const land_ag_content = document.getElementById('soil-content')
+        reset_content()
+        if (land_ag_content.style.display === 'none' || land_ag_content.style.display === ''){
+            land_ag_content.style.display = 'block';
+        }
+    });
+
 });
 
 document.addEventListener("DOMContentLoaded", function() {
