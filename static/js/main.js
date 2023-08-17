@@ -12,7 +12,33 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('/fc/raichur')
         .then(response => response.json())
         .then(data => {
-            L.geoJSON(data).addTo(map);
+            L.geoJSON(data, {
+                style: function () {
+                    return {
+                        fillColor: 'blue',
+                        fillOpacity: 0.0, 
+                        color: 'black',
+                        weight: 2
+                    };
+                }
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error("Error fetching GeoJSON:", error);
+        });
+    fetch('/fc/raichurCCA')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: function () {
+                    return {
+                        fillColor: 'blue',
+                        fillOpacity: 0.4, 
+                        color: 'blue',
+                        weight: 2
+                    };
+                }
+            }).addTo(map);
         })
         .catch(error => {
             console.error("Error fetching GeoJSON:", error);
@@ -72,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    for (const param of ['single', 'double', 'triple', 'total']) {
-        ag_area('', param)
+    for (const param of ['kharif', 'rabi']) {
+        ag_area('raichurCCA', param)
     }
 
     // Event listener for Button 2
