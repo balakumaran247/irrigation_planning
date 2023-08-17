@@ -69,21 +69,15 @@ document.addEventListener("DOMContentLoaded", function() {
     //         console.error('Error fetching data:', error);
     //     });
 
-    // Reference to the content <div> element
-    var contentDisplay = document.getElementById('content-display');
-
-    // function to fetch area from Flask for different seasons
-    async function ag_area(name, ctype) {
+    // function to fetch data for scenarios
+    async function scenario_data(name) {
         try{
-            let response = await fetch(`/area?name=${encodeURIComponent(name)}&ctype=${encodeURIComponent(ctype)}`);
+            let response = await fetch(`/scenario?name=${encodeURIComponent(name)}`);
             let data = await response.json();
-            let val = data.area;
-            let ele = document.getElementById(ctype)
-            ele.textContent = val
+            return data;
         } catch(error) {
                 console.error('Error fetching data:', error);
-                let ele = document.getElementById(ctype);
-                ele.textContent = 'Failed'
+                return null;
         };
     }
 
@@ -103,11 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
             land_ag_content.style.display = 'block';
         }
     });
-
-    // fetch the ag area for different seasons and change the html content
-    for (const param of ['kharif', 'rabi']) {
-        ag_area('raichurCCA', param)
-    }
 
     // Event listener for Livestock button
     document.getElementById('livestock-btn').addEventListener('click', function() {
@@ -134,46 +123,24 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Previous code ...
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-    
-    var chart = new Chart(ctx, {
-        type: 'bar', // You can change the type to 'line', 'pie', etc.
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    async function update_data(data) {
+        console.log(`${data.hasOwnProperty('k_area')}`);
+        const keys = ['k_area', 'r_area'];
+        for (const key of keys) {
+            console.log(`Key: ${key}`);
+            if (data.hasOwnProperty(key)) {
+                const value = data[key];
+                let ele = document.getElementById(key);
+                console.log(`Key: ${key}, Value: ${value}`);
+                ele.textContent = value;
             }
         }
+    }
+
+    document.getElementById('baseline-btn').addEventListener('click', async function() {
+        let data = await scenario_data('baseline');
+        console.log(`${data}`);
+        update_data(data);
     });
 });
 
