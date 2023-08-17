@@ -4,16 +4,10 @@ ee.Initialize()
 def get_fc(name):
     if name == 'raichur':
         return ee.FeatureCollection("users/jaltolwelllabs/FeatureCol/Raichur")
-    datameet = ee.FeatureCollection("users/jaltolwelllabs/FeatureCol/MH_KAR_TN_Jaltol")
-    return datameet.filter(
-        ee.Filter.And(
-            ee.Filter.eq("State_N", "KARNATAKA"),
-            ee.Filter.eq("Dist_N", "Raichur"),
-            ee.Filter.eq("SubDist_N", "Devadurga"),
-            ee.Filter.eq("Block_N", "Devadurga"),
-            ee.Filter.eq("VCT_N", "Gandhal"),
-        )
-    )
+    elif name == 'raichurCCA':
+        return ee.FeatureCollection("users/jaltolwelllabs/FeatureCol/Raichur_Scenario_1_CCA")
+    else:
+        return None
 
 def get_image():
     coll = ee.ImageCollection("users/jaltolwelllabs/LULC/IndiaSAT_phase1_draft")
@@ -22,6 +16,8 @@ def get_image():
 
 def get_ag_area(ctype, name):
     roi = get_fc(name)
+    if not roi:
+        return None
     image = get_image()
     crop_px_list = [5,9,10,11,12]
     single_px_list = [9, 10]
@@ -46,11 +42,21 @@ def get_ag_area(ctype, name):
     single_image = extract_px(image, single_px_list)
     double_image = image.eq(double_px)
     triple_image = image.eq(triple_px)
+    single = get_area(single_image)
+    double = get_area(double_image)
+    triple = get_area(triple_image)
+    total = get_area(crop_image)
     if ctype == 'single':
-        return get_area(single_image)
+        return single
     elif ctype == 'double':
-        return get_area(double_image)
+        return double
     elif ctype == 'triple':
-        return get_area(triple_image)
+        return triple
+    elif ctype == 'total':
+        return total
+    elif ctype == 'kharif':
+        return (single+double)
+    elif ctype == 'rabi':
+        return double
     else:
-        return get_area(crop_image)
+        return None
