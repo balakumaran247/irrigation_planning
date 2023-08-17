@@ -14,7 +14,11 @@
 
 <div class="grid-container">
     <div class="grid-item row1"><h1>Raichur</h1></div>
-    <div class="grid-item row1"><p>Raichur Agriculture Area: <span id="ag_area">Fetching...</span></p></div>
+    <!-- <div class="grid-item row1"><p>Raichur Agriculture Area: <span id="ag_area">Fetching...</span></p></div> -->
+    <div class="grid-item row1 scenario-container">
+        <button class="scenario" id="baseline-btn">Baseline</button>
+        <button class="scenario" id="scenario1-btn">Scenario-1</button>
+    </div>
     <div class="grid-item">
         <button class="grid-button" id="land-btn">Land</button>
         <button class="grid-button" id="livestock-btn">Livestock</button>
@@ -37,12 +41,16 @@
     </div>
     <div class="grid-item" id="map"></div>
     <div class="grid-item">
-        <p>Total Income</p>
-        <p>Livestock Income</p>
-        <p>Crop Income</p>
+        <p>Total Income: <span>Calculating...</span></p>
+        <p>Livestock Income: <span>Calculating...</span></p>
+        <p>Crop Income: <span>Calculating...</span></p>
     </div>
-    <div class="grid-item">
-        <canvas id="myChart"></canvas>
+    <div class="grid-item constraint-container">
+        <!-- <canvas id="myChart"></canvas> -->
+        <div class="constraint" id="land-constraint"><p>Land</p></div>
+        <div class="constraint" id="livestock-constraint"><p>Livestock</p></div>
+        <div class="constraint" id="water-constraint"><p>Water</p></div>
+        <div class="constraint" id="soil-constraint"><p>Soil</p></div>
     </div>
 </div>
 <script src="static/js/main.js"></script>

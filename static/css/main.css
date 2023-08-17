@@ -13,7 +13,7 @@ html, body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 0.35fr auto 0.3fr; /*repeat(3, 1fr);*/
+    grid-template-rows: 0.15fr auto 0.3fr; /*repeat(3, 1fr);*/
     gap: 5px;
     width: 100vw; /* 100% of the viewport width */
     height: 100vh; /* 100% of the viewport height */
@@ -59,6 +59,39 @@ html, body {
 #myChart {
     width: 100%;
     height: 100%;
+}
+
+.bold-content {
+    font-weight: 300;
+}
+
+.constraint {
+    background-color: red;
+    padding: 1px 3px;
+}
+
+.scenario-container {
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.scenario {
+    display: inline-block; /* Display buttons inline horizontally */
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /* margin-right: 50%; */
+}
+
+.scenario:hover {
+    background-color: turquoise;
+}
+
+.constraint-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .default-hidden {
