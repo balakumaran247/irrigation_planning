@@ -56,7 +56,7 @@ def get_ee_map_url():
 def get_area():
     name = request.args.get('name', 'raichur')
     ctype = request.args.get('ctype', 'total')
-    return jsonify({'area': str(round(get_ag_area(ctype, name),2))})
+    return jsonify({'area': f'{round(get_ag_area(ctype, name)/1e4, 2)} ha'})
 
 if __name__ == "__main__":
     app.run(debug=True)
