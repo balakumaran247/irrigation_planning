@@ -14,6 +14,10 @@ def get_image():
     filtered = coll.filterDate("2021-07-01", "2022-06-30").select(["b1"])
     return filtered.mosaic()
 
+def get_fc_area(name):
+    fc = get_fc(name)
+    return ee.Number(fc.geometry().area()).divide(1e4).getInfo()
+
 def get_ag_area(ctype, name):
     roi = get_fc(name)
     if not roi:

@@ -1,4 +1,4 @@
-from src.gee import get_ag_area
+from src.gee import get_ag_area, get_fc_area
 from src.config import baseline, scenario1
 
 # Define functions
@@ -71,7 +71,25 @@ def total_crop_residue_as_OM(fodder_deficit,fraction_residue_fodder,total_crop_r
 def cattle_income(no_cattle,profit_per_cattle):
     return (no_cattle*profit_per_cattle) #Rs
 
-def main(scenario):
+def kharif_crops(k_area, scenario):
+    return [('Paddy', k_area)] if scenario == 'baseline' else [('Cotton', k_area)]
+
+def rabi_crops(r_area, scenario):
+    return [('Millet', r_area)] if scenario == 'baseline' else [('Ragi', r_area)]
+
+def kharif_iwr_mm(k_cwr_mm, rain_mm, scenario):
+    if scenario == 'baseline':
+        return [('Paddy', k_cwr_mm), ('Rainfall', rain_mm), ('IWR', k_cwr_mm-rain_mm)]
+    else:
+        return [('Cotton', k_cwr_mm), ('Rainfall', rain_mm), ('IWR', k_cwr_mm-rain_mm)]
+
+def rabi_iwr_mm(r_cwr_mm, rain_mm, scenario):
+    if scenario == 'baseline':
+        return [('Millet', r_cwr_mm), ('Rainfall', rain_mm), ('IWR', r_cwr_mm-rain_mm)]
+    else:
+        return [('Ragi', r_cwr_mm), ('Rainfall', rain_mm), ('IWR', r_cwr_mm-rain_mm)]
+
+def scenarios(scenario, name):
     get_config = baseline if scenario == 'baseline' else scenario1
     # Get hardcoded values from config file
     k_net_income = get_config['k_net_income']
@@ -96,9 +114,14 @@ def main(scenario):
     perc_OM_depleted = get_config['perc_OM_depleted']
     total_water_available = get_config['total_water_available']
     # get dynamic values
-    k_area = get_ag_area('kharif', 'raichurCCA')/1e4
-    r_area = get_ag_area('rabi', 'raichurCCA')/1e4
+    geom_area = get_fc_area(name)
+    k_area = get_config['k_area'] or get_ag_area('kharif', 'raichurCCA')/1e4
+    r_area = get_config['r_area'] or get_ag_area('rabi', 'raichurCCA')/1e4
+    k_rain_mm = 300
+    r_rain_mm = 100
     # execute the defined functions
+    k_crops = kharif_crops(k_area, scenario)
+    r_crops = rabi_crops(r_area, scenario)
     k_incom = k_income(k_area, k_net_income)
     r_incom = r_income(r_area, r_net_income)
     total_cr_produce = total_crop_produce(k_area, k_crop_yield, r_area, r_crop_yield)
@@ -124,8 +147,13 @@ def main(scenario):
     cat_inc = cattle_income(no_cattl, profit_per_cattle)
     
     return {
+        'geom_area': geom_area,
         'k_area': k_area,
         'r_area': r_area,
+        'k_crops': k_crops,
+        'r_crops': r_crops,
+        'k_rain_mm': k_rain_mm,
+        'r_rain_mm': r_rain_mm,
         'netsownarea': k_area,
         'k_net_income': k_net_income,
         'r_net_income': r_net_income,

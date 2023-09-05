@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", function() {
     //     });
 
     // function to fetch data for scenarios
-    async function scenario_data(name) {
+    async function scenario_data(scenario, name) {
         try{
-            let response = await fetch(`/scenario?name=${encodeURIComponent(name)}`);
+            let response = await fetch(`/scenario?name=${encodeURIComponent(name)}&scenario=${encodeURIComponent(scenario)}`);
             let data = await response.json();
             return data;
         } catch(error) {
@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // function to reset the display of the central grid
     const reset_content = () => {
+        document.getElementById('default-main').style.display = 'none'
         document.getElementById('land-content').style.display = 'none'
         document.getElementById('livestock-content').style.display = 'none'
         document.getElementById('water-content').style.display = 'none'
@@ -124,21 +125,53 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     async function update_data(data) {
-        console.log(`${data.hasOwnProperty('k_area')}`);
-        const keys = ['k_area', 'r_area'];
-        for (const key of keys) {
-            console.log(`Key: ${key}`);
+        for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 const value = data[key];
-                let ele = document.getElementById(key);
-                console.log(`Key: ${key}, Value: ${value}`);
-                ele.textContent = value;
+                try{
+                    if (key === 'k_crops') {
+                        const tableBody = document.getElementById('kharifTableBody');
+                        tableBody.innerHTML = '';
+                        for (const [cropName, cropQuantity] of data.k_crops) {
+                            const row = document.createElement('tr');
+                            const nameCell = document.createElement('td');
+                            const quantityCell = document.createElement('td');
+
+                            nameCell.textContent = cropName;
+                            quantityCell.textContent = cropQuantity;
+
+                            row.appendChild(nameCell);
+                            row.appendChild(quantityCell);
+                            tableBody.appendChild(row);
+                        }
+                    } else if (key === 'r_crops') {
+                        const tableBody = document.getElementById('rabiTableBody');
+                        tableBody.innerHTML = '';
+                        for (const [cropName, cropQuantity] of data.r_crops) {
+                            const row = document.createElement('tr');
+                            const nameCell = document.createElement('td');
+                            const quantityCell = document.createElement('td');
+
+                            nameCell.textContent = cropName;
+                            quantityCell.textContent = cropQuantity;
+
+                            row.appendChild(nameCell);
+                            row.appendChild(quantityCell);
+                            tableBody.appendChild(row);
+                        }
+                    } else {
+                        let ele = document.getElementById(key);
+                        ele.textContent = value;
+                    }
+                } catch(error) {
+                    console.error(`Error identifying the key: ${key}`);
+                };
             }
         }
     }
 
     document.getElementById('baseline-btn').addEventListener('click', async function() {
-        let data = await scenario_data('baseline');
+        let data = await scenario_data('baseline', 'raichurCCA');
         console.log(`${data}`);
         update_data(data);
     });

@@ -61,10 +61,6 @@ html, body {
     height: 100%;
 }
 
-.bold-content {
-    font-weight: 300;
-}
-
 .constraint {
     background-color: red;
     padding: 1px 3px;

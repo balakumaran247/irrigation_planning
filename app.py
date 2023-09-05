@@ -1,7 +1,7 @@
 import ee
 from flask import Flask, jsonify, render_template, request
 from src.gee import get_fc, get_ag_area
-from src.scenarios import main
+from src.scenarios import scenarios
 
 # ee.Authenticate()
 ee.Initialize()
@@ -61,8 +61,9 @@ def get_area():
 
 @app.route('/scenario')
 def scenario():
+    scenario = request.args.get('scenario', 'baseline')
     name = request.args.get('name', 'raichur')
-    data = main(name)
+    data = scenarios(scenario, name)
     print(data)
     return jsonify(data)
     
