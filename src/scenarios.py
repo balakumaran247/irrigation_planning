@@ -72,18 +72,18 @@ def cattle_income(no_cattle,profit_per_cattle):
     return (no_cattle*profit_per_cattle) #Rs
 
 def kharif_crops(k_area, scenario):
-    return [('Paddy', k_area)] if scenario == 'baseline' else [('Cotton', k_area)]
+    return [('Paddy', f'{round(k_area, 2)} ha')] if scenario == 'baseline' else [('Cotton', f'{round(k_area, 2)} ha')]
 
 def rabi_crops(r_area, scenario):
-    return [('Millet', r_area)] if scenario == 'baseline' else [('Ragi', r_area)]
+    return [('Millet', f'{round(r_area, 2)} ha')] if scenario == 'baseline' else [('Ragi', f'{round(r_area, 2)} ha')]
 
-def kharif_iwr_mm(k_cwr_mm, rain_mm, scenario):
+def kharif_iwr_mm_list(k_cwr_mm, rain_mm, scenario):
     if scenario == 'baseline':
         return [('Paddy', k_cwr_mm), ('Rainfall', rain_mm), ('IWR', k_cwr_mm-rain_mm)]
     else:
         return [('Cotton', k_cwr_mm), ('Rainfall', rain_mm), ('IWR', k_cwr_mm-rain_mm)]
 
-def rabi_iwr_mm(r_cwr_mm, rain_mm, scenario):
+def rabi_iwr_mm_list(r_cwr_mm, rain_mm, scenario):
     if scenario == 'baseline':
         return [('Millet', r_cwr_mm), ('Rainfall', rain_mm), ('IWR', r_cwr_mm-rain_mm)]
     else:
@@ -122,6 +122,8 @@ def scenarios(scenario, name):
     # execute the defined functions
     k_crops = kharif_crops(k_area, scenario)
     r_crops = rabi_crops(r_area, scenario)
+    k_iwr_list = kharif_iwr_mm_list(k_cwr_mm, k_rain_mm, scenario)
+    r_iwr_list = rabi_iwr_mm_list(r_cwr_mm, r_rain_mm, scenario)
     k_incom = k_income(k_area, k_net_income)
     r_incom = r_income(r_area, r_net_income)
     total_cr_produce = total_crop_produce(k_area, k_crop_yield, r_area, r_crop_yield)
@@ -147,13 +149,15 @@ def scenarios(scenario, name):
     cat_inc = cattle_income(no_cattl, profit_per_cattle)
     
     return {
-        'geom_area': geom_area,
-        'k_area': k_area,
-        'r_area': r_area,
+        'geom_area': f'{round(geom_area, 2)} ha',
+        'k_area': f'{round(k_area, 2)} ha',
+        'r_area': f'{round(r_area, 2)} ha',
         'k_crops': k_crops,
         'r_crops': r_crops,
         'k_rain_mm': k_rain_mm,
         'r_rain_mm': r_rain_mm,
+        'k_iwr_list': k_iwr_list,
+        'r_iwr_list': r_iwr_list,
         'netsownarea': k_area,
         'k_net_income': k_net_income,
         'r_net_income': r_net_income,

@@ -31,7 +31,7 @@
                 <p>Select either Baseline or Scenario1</p>
             </div>
             <div class="default-hidden" id="land-content">
-                <table class="content-table" id="totalTable">
+                <table class="content-table" id="totalAreaTable">
                     <thead>
                         <tr>
                             <th>Total Area</th>
@@ -41,33 +41,54 @@
                     <tbody><tr><td></td><td></td></tr></tbody>
                 </table>
                 <!-- Total Area<span id="geom_area">fetching...</span> -->
-                <table class="content-table" id="kharifTable">
+                <table class="content-table" id="kharifAreaTable">
                     <thead>
                         <tr>
                             <th>Kharif Area</th>
                             <th><span id="k_area">fetching...</span></th>
                         </tr>
                     </thead>
-                    <tbody id="kharifTableBody">
+                    <tbody id="kharifAreaTableBody">
                     </tbody>
                 </table>
                 <!-- <strong>Kharif<span id="k_area">fetching...</span></strong> -->
                 <!-- <p>Paddy</p> -->
-                <table class="content-table" id="rabiTable">
+                <table class="content-table" id="rabiAreaTable">
                     <thead>
                         <tr>
                             <th>Rabi Area</th>
                             <th><span id="r_area">fetching...</span></th>
                         </tr>
                     </thead>
-                    <tbody id="rabiTableBody">
+                    <tbody id="rabiAreaTableBody">
                     </tbody>
                 </table>
                 <!-- <h3>Rabi</h3><span id="r_area">fetching...</span> -->
                 <!-- <p>Millet</p> -->
             </div>
             <div class="default-hidden" id="livestock-content"><p>livestock</p></div>
-            <div class="default-hidden" id="water-content"><p>water</p></div>
+            <div class="default-hidden" id="water-content">
+                <table class="content-table" id="kharifWaterTable">
+                    <thead>
+                        <tr>
+                            <th>Kharif CWR(mm) </th>
+                            <th><span id="k_cwr_mm">fetching...</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="kharifWaterTableBody">
+                    </tbody>
+                </table>
+                <table class="content-table" id="rabiWaterTable">
+                    <thead>
+                        <tr>
+                            <th>Rabi CWR(mm) </th>
+                            <th><span id="r_cwr_mm">fetching...</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rabiWaterTableBody">
+                    </tbody>
+                </table>
+            </div>
             <div class="default-hidden" id="soil-content"><p>soil</p></div>
         </div>
     </div>

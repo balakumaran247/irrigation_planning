@@ -124,41 +124,36 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    function table_updation(id_name, list_items){
+        const tableBody = document.getElementById(id_name);
+        tableBody.innerHTML = '';
+        for (const [key_element, value_element] of list_items) {
+            const row = document.createElement('tr');
+            const keyCell = document.createElement('td');
+            const valueCell = document.createElement('td');
+
+            keyCell.textContent = key_element;
+            valueCell.textContent = value_element;
+
+            row.appendChild(keyCell);
+            row.appendChild(valueCell);
+            tableBody.appendChild(row);
+        }
+    }
+
     async function update_data(data) {
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 const value = data[key];
                 try{
                     if (key === 'k_crops') {
-                        const tableBody = document.getElementById('kharifTableBody');
-                        tableBody.innerHTML = '';
-                        for (const [cropName, cropQuantity] of data.k_crops) {
-                            const row = document.createElement('tr');
-                            const nameCell = document.createElement('td');
-                            const quantityCell = document.createElement('td');
-
-                            nameCell.textContent = cropName;
-                            quantityCell.textContent = cropQuantity;
-
-                            row.appendChild(nameCell);
-                            row.appendChild(quantityCell);
-                            tableBody.appendChild(row);
-                        }
+                        table_updation('kharifAreaTableBody', data.k_crops)
                     } else if (key === 'r_crops') {
-                        const tableBody = document.getElementById('rabiTableBody');
-                        tableBody.innerHTML = '';
-                        for (const [cropName, cropQuantity] of data.r_crops) {
-                            const row = document.createElement('tr');
-                            const nameCell = document.createElement('td');
-                            const quantityCell = document.createElement('td');
-
-                            nameCell.textContent = cropName;
-                            quantityCell.textContent = cropQuantity;
-
-                            row.appendChild(nameCell);
-                            row.appendChild(quantityCell);
-                            tableBody.appendChild(row);
-                        }
+                        table_updation('rabiAreaTableBody', data.r_crops)
+                    } else if (key === 'k_iwr_list') {
+                        table_updation('kharifWaterTableBody', data.k_iwr_list)
+                    } else if (key === 'r_iwr_list') {
+                        table_updation('rabiWaterTableBody', data.r_iwr_list)
                     } else {
                         let ele = document.getElementById(key);
                         ele.textContent = value;
@@ -172,7 +167,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById('baseline-btn').addEventListener('click', async function() {
         let data = await scenario_data('baseline', 'raichurCCA');
-        console.log(`${data}`);
+        update_data(data);
+    });
+    document.getElementById('scenario1-btn').addEventListener('click', async function() {
+        let data = await scenario_data('scenario1', 'raichurCCA');
         update_data(data);
     });
 });
