@@ -25,8 +25,8 @@ baseline = {
 }
 
 scenario1 = {
-    "k_area": 16000, # 75359.36
-    "r_area": 10000, # 20709.26
+    "k_area": 75359.36, # 75359.36
+    "r_area": 40000.00, # 20709.26
     "k_net_income": 30750.0,
     "r_net_income": 7500.0,
     "k_crop_yield": 0.5,
